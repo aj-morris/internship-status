@@ -1,3 +1,26 @@
+// The button toggles a root attribute; CSS uses it to select theme colors.
+const THEME_KEY = 'zed.theme';
+const themeButton = document.getElementById('theme-toggle');
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  // Name the theme the button will switch to.
+  themeButton.textContent = theme === 'dark' ? 'Light theme' : 'Dark theme';
+  document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#121b27' : '#f3f6fa';
+}
+
+function toggleTheme() {
+  const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(theme);
+  // The toggle still works if browser storage is unavailable.
+  try { localStorage.setItem(THEME_KEY, theme); } catch { /* Keep the theme for this visit. */ }
+}
+
+let savedTheme;
+try { savedTheme = localStorage.getItem(THEME_KEY); } catch { /* Use the default light theme. */ }
+applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
+document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
 // One array holds the application's state; localStorage keeps it across reloads.
 const STORAGE_KEY = 'zed.applications.v1';
 const form = document.querySelector('#application-form');
