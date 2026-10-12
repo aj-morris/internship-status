@@ -16,8 +16,8 @@
   --text: #e7edf5;
   --page: #121b27;
   --surface: #1d2a3a;
-  --border: #52657c;
-  --input-border: #8b9db2;
+  --border: #3c4249;
+  --input-border: #0c2a4d;
   --muted: #bbc9da;
   --error: #ff9aaa;
   --link: #9bc7ff;
@@ -35,11 +35,11 @@ label { display: block; font-weight: 600; margin-bottom: .35rem; }
 input, select, textarea, button { font: inherit; }
 input, select, textarea { width: 100%; padding: .65rem; border: 1px solid var(--input-border); border-radius: 6px; background: var(--surface); color: inherit; }
 textarea { resize: vertical; }
-button { margin-top: 1rem; padding: .7rem 1.2rem; background: #a4bcd9; color: white; border: 0; border-radius: 6px; cursor: pointer; }
-button:hover { background: #c9d1dc; }
+button { margin-top: 1rem; padding: .7rem 1.2rem; background: #2c588d; color: white; border: 0; border-radius: 6px; cursor: pointer; }
+button:hover { background: #4c6382; }
 /* On a light page, show a dark button. */
 #theme-toggle { background: #192b3c; color: #ffffff; }
-#theme-toggle:hover { background: #30475e; }
+#theme-toggle:hover { background: #24415e; }
 /* On a dark page, show a light button. */
 :root[data-theme="dark"] #theme-toggle { background: #e7edf5; color: #192b3c; }
 :root[data-theme="dark"] #theme-toggle:hover { background: #c5d4e6; }

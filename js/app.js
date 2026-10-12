@@ -27,10 +27,50 @@ const form = document.querySelector('#application-form');
 const list = document.querySelector('#application-list');
 const message = document.querySelector('#form-message');
 const storageMessage = document.querySelector('#storage-message');
-const statuses = ['Work In Progress','Applied', 'Interviewing', 'Offer', 'Rejected', 'Withdrawn'];
+// Read allowed statuses from the dropdown so spelling always matches.
+const statuses = Array.from(form.elements.status.options, option => option.value);
 const fields = ['company', 'position', 'link', 'applicationDate', 'status', 'contact', 'notes', 'followUpDate'];
 let applications = [];
 let storageReadable = true;
+// null means adding; a number identifies the application being edited.
+let editingIndex = null;
+let editTrigger = null;
+const saveButton = form.querySelector('button[type="submit"]');
+const cancelEdit = document.querySelector('#cancel-edit');
+const formHeading = document.querySelector('#form-heading');
+const listMessage = document.querySelector('#list-message');
+
+function clearErrors() {
+  form.querySelectorAll('.error').forEach(error => { error.textContent = ''; });
+  form.querySelectorAll('[aria-invalid]').forEach(input => input.removeAttribute('aria-invalid'));
+}
+
+function resetForm() {
+  editingIndex = null;
+  form.reset();
+  clearErrors();
+  formHeading.textContent = 'Add an application';
+  saveButton.textContent = 'Save application';
+  cancelEdit.hidden = true;
+}
+
+cancelEdit.addEventListener('click', () => {
+  resetForm();
+  message.textContent = 'Edit canceled. Saved details were kept.';
+  editTrigger?.focus();
+});
+
+// Both kinds of updates use this: only change memory after storage succeeds.
+function saveApplications(updated, feedback) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    applications = updated;
+    return true;
+  } catch {
+    feedback.textContent = 'Changes could not be saved. Browser storage may be full or unavailable. Your saved applications were kept; try again.';
+    return false;
+  }
+}
 
 function validLink(value) {
   if (!value) return true;
@@ -57,6 +97,14 @@ try {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved !== null) {
     const parsed = JSON.parse(saved);
+    // Keep applications saved with the older capitalization readable.
+    if (Array.isArray(parsed)) {
+      for (const application of parsed) {
+        if (application && application.status === 'Work In Progress') {
+          application.status = 'Work in Progress';
+        }
+      }
+    }
     if (!Array.isArray(parsed) || !parsed.every(validRecord)) throw new Error('Invalid saved data');
     applications = parsed;
   }
@@ -70,7 +118,7 @@ try {
 function renderApplications() {
   list.replaceChildren();
   document.querySelector('#empty-message').hidden = applications.length > 0 || !storageReadable;
-  for (const application of applications) {
+  for (const [index, application] of applications.entries()) {
     const item = document.createElement('li');
     const heading = document.createElement('h3');
     // textContent treats user input as text, preventing HTML injection.
@@ -80,7 +128,33 @@ function renderApplications() {
       const term = document.createElement('dt');
       term.textContent = label;
       const value = document.createElement('dd');
-      if (field === 'link' && application.link) {
+      if (field === 'status') {
+        const label = document.createElement('label');
+        label.htmlFor = `saved-status-${index}`;
+        label.textContent = `Status for ${application.position} at ${application.company}`;
+        const select = document.createElement('select');
+        select.id = label.htmlFor;
+        for (const status of statuses) {
+          const option = document.createElement('option');
+          option.value = status;
+          option.textContent = status;
+          select.append(option);
+        }
+        select.value = application.status;
+        select.addEventListener('change', () => {
+          listMessage.textContent = '';
+          const updated = applications.map((record, recordIndex) =>
+            recordIndex === index ? { ...record, status: select.value } : record);
+          if (saveApplications(updated, listMessage)) {
+            // Keep an open edit form in sync with this quick status change.
+            if (editingIndex === index) form.elements.status.value = select.value;
+            listMessage.textContent = `Status saved for ${application.position} at ${application.company}.`;
+          } else {
+            select.value = applications[index].status;
+          }
+        });
+        value.append(label, select);
+      } else if (field === 'link' && application.link) {
         const link = document.createElement('a');
         link.href = application.link;
         link.textContent = application.link;
@@ -90,7 +164,23 @@ function renderApplications() {
       }
       details.append(term, value);
     }
-    item.append(heading, details);
+    const editButton = document.createElement('button');
+    editButton.type = 'button';
+    editButton.textContent = 'Edit';
+    editButton.setAttribute('aria-label', `Edit ${application.position} at ${application.company}`);
+    editButton.addEventListener('click', () => {
+      editingIndex = index;
+      editTrigger = editButton;
+      clearErrors();
+      // Read the latest saved record, including any quick status changes.
+      for (const field of fields) form.elements[field].value = applications[index][field];
+      formHeading.textContent = 'Edit application';
+      saveButton.textContent = 'Save changes';
+      cancelEdit.hidden = false;
+      message.textContent = `Editing ${application.position} at ${application.company}.`;
+      form.elements.company.focus();
+    });
+    item.append(heading, details, editButton);
     list.append(item);
   }
 }
@@ -119,18 +209,16 @@ form.addEventListener('submit', event => {
     firstInvalid.focus();
     return;
   }
-  const updated = [...applications, application];
-  try {
-    // Commit to the screen only after storage succeeds; retain the form on failure.
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-  } catch {
-    message.textContent = 'Application could not be saved. Browser storage may be full or unavailable. Your form entries are still here; try again.';
-    return;
-  }
-  applications = updated;
+  const isEditing = editingIndex !== null;
+  // Replace one record when editing; append a record when adding.
+  const updated = isEditing
+    ? applications.map((record, index) => index === editingIndex ? application : record)
+    : [...applications, application];
+  if (!saveApplications(updated, message)) return;
   renderApplications();
-  form.reset();
-  message.textContent = 'Application saved in this browser.';
+  resetForm();
+  listMessage.textContent = '';
+  message.textContent = isEditing ? 'Application updated in this browser.' : 'Application saved in this browser.';
   form.elements.company.focus();
 });
 
