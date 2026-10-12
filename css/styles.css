@@ -1,23 +1,23 @@
 /* Shared color variables let every component follow the selected theme. */
 :root {
-  --text: #595269;
-  --page: #f7f2f8;
+  --text: #343b7b;
+  --page: #dadfe7;
   --surface: #ffffff;
-  --border: #bdcbdb;
+  --border: #343b7b;
   --input-border: #65778a;
   --muted: #485b6e;
-  --error: #a51c30;
+  --error: #ff9aaa;
   --link: #174b8c;
-  --focus: #965600;
+  --focus: #343b7b;
   color-scheme: light;
   font-family: system-ui, sans-serif; color: var(--text); background: var(--page); line-height: 1.5;
 }
 :root[data-theme="dark"] {
   --text: #e7edf5;
-  --page: #121b27;
-  --surface: #1d2a3a;
-  --border: #3c4249;
-  --input-border: #0c2a4d;
+  --page: #162132;
+  --surface: #405876;
+  --border: #b1bbc7;
+  --input-border: #ced3d9;
   --muted: #bbc9da;
   --error: #ff9aaa;
   --link: #9bc7ff;
@@ -27,6 +27,22 @@
 * { box-sizing: border-box; }
 body { margin: 0 auto; max-width: 1000px; padding: 2rem 1rem; }
 header { margin-bottom: 2rem; }
+.header-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.header-controls #theme-toggle { margin-top: 0; }
+/* On Home, keep the title and toggle together and wrap on small screens. */
+.home-title { justify-content: flex-start; }
+.home-title h1 { margin: 0; }
+.home-title #theme-toggle { flex-shrink: 0; }
+nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; margin-left: auto; }
+/* Each link is a whole clickable card, using the existing theme colors. */
+/* Shared dimensions keep the toggle and navigation cards the same shape. */
+.header-controls #theme-toggle, nav a { width: 10.5rem; padding: .5rem .75rem; font-size: .9rem; line-height: 1.5; border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+nav a { background: var(--surface); text-decoration: none; }
+nav a:hover { border-color: var(--link); text-decoration: underline; }
+nav a[aria-current="page"] { font-weight: 700; border-color: var(--link); }
+/* Larger cards below the introduction on the Home page. */
+.home-nav { justify-content: flex-start; gap: 1rem; margin: 1.5rem 0 0; }
+.home-nav a { flex: 1 1 220px; width: auto; padding: 2rem 1.5rem; font-size: 1.1rem; }
 h1, h2, h3 { line-height: 1.2; }
 section { background: var(--surface); padding: 1.5rem; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1.5rem; }
 .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
@@ -37,6 +53,7 @@ input, select, textarea { width: 100%; padding: .65rem; border: 1px solid var(--
 textarea { resize: vertical; }
 button { margin-top: 1rem; padding: .7rem 1.2rem; background: #2c588d; color: white; border: 0; border-radius: 6px; cursor: pointer; }
 button:hover { background: #4c6382; }
+.application-list button + button { margin-left: .5rem; }
 /* On a light page, show a dark button. */
 #theme-toggle { background: #192b3c; color: #ffffff; }
 #theme-toggle:hover { background: #24415e; }
