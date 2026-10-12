@@ -1,4 +1,4 @@
-/* Shared color variables let every component follow the selected theme. */
+/* Default colors used throughout the site */
 :root {
   --text: #343b7b;
   --page: #dadfe7;
@@ -12,6 +12,8 @@
   color-scheme: light;
   font-family: system-ui, sans-serif; color: var(--text); background: var(--page); line-height: 1.5;
 }
+
+/* Replaces the default colors when dark theme is selected */
 :root[data-theme="dark"] {
   --text: #e7edf5;
   --page: #162132;
@@ -24,52 +26,82 @@
   --focus: #ffcc73;
   color-scheme: dark;
 }
-* { box-sizing: border-box; }
+
+* { box-sizing: border-box; } /* Includes padding and borders in an element's width */
 body { margin: 0 auto; max-width: 1000px; padding: 2rem 1rem; }
 header { margin-bottom: 2rem; }
 .header-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .header-controls #theme-toggle { margin-top: 0; }
+
 /* On Home, keep the title and toggle together and wrap on small screens. */
 .home-title { justify-content: flex-start; }
 .home-title h1 { margin: 0; }
 .home-title #theme-toggle { flex-shrink: 0; }
 nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; margin-left: auto; }
+
 /* Each link is a whole clickable card, using the existing theme colors. */
 /* Shared dimensions keep the toggle and navigation cards the same shape. */
 .header-controls #theme-toggle, nav a { width: 10.5rem; padding: .5rem .75rem; font-size: .9rem; line-height: 1.5; border: 1px solid var(--border); border-radius: 12px; text-align: center; }
 nav a { background: var(--surface); text-decoration: none; }
 nav a:hover { border-color: var(--link); text-decoration: underline; }
+
+/* Highlights the link for the current page */
 nav a[aria-current="page"] { font-weight: 700; border-color: var(--link); }
+
 /* Larger cards below the introduction on the Home page. */
 .home-nav { justify-content: flex-start; gap: 1rem; margin: 1.5rem 0 0; }
 .home-nav a { flex: 1 1 220px; width: auto; padding: 2rem 1.5rem; font-size: 1.1rem; }
 h1, h2, h3 { line-height: 1.2; }
+
+/* Styles each content section */
 section { background: var(--surface); padding: 1.5rem; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1.5rem; }
+
+
+/* Arranges form fields into two equal columns */
 .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+
+/* Makes the notes field span both columns */
 .full-width { grid-column: 1 / -1; }
 label { display: block; font-weight: 600; margin-bottom: .35rem; }
+
+/* Makes form controls use the page's font */
 input, select, textarea, button { font: inherit; }
 input, select, textarea { width: 100%; padding: .65rem; border: 1px solid var(--input-border); border-radius: 6px; background: var(--surface); color: inherit; }
+
+/* Lets users resize the notes field vertically */
 textarea { resize: vertical; }
 button { margin-top: 1rem; padding: .7rem 1.2rem; background: #2c588d; color: white; border: 0; border-radius: 6px; cursor: pointer; }
 button:hover { background: #4c6382; }
+
+/* Adds space between Edit and Delete buttons */
 .application-list button + button { margin-left: .5rem; }
+
 /* On a light page, show a dark button. */
 #theme-toggle { background: #192b3c; color: #ffffff; }
 #theme-toggle:hover { background: #24415e; }
 /* On a dark page, show a light button. */
 :root[data-theme="dark"] #theme-toggle { background: #e7edf5; color: #192b3c; }
 :root[data-theme="dark"] #theme-toggle:hover { background: #c5d4e6; }
+
+/* Shows an outline when a control has keyboard focus */
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 [aria-invalid="true"] { border-color: var(--error); }
 .hint, .error { font-size: .9rem; margin: .35rem 0 0; }
 .hint { color: var(--muted); }
+
+
 .error, #storage-message { color: var(--error); }
 .error:empty, #storage-message:empty { display: none; }
+
+/* Keeps long links from overflowing */
 .application-list { list-style: none; padding: 0; }
 .application-list > li { padding: 1rem 0; border-top: 1px solid var(--border); overflow-wrap: anywhere; }
+
+
 dl { display: grid; grid-template-columns: minmax(100px, 150px) 1fr; gap: .5rem 1rem; }
 dt { font-weight: 600; }
 dd { margin: 0; white-space: pre-wrap; }
 a { color: var(--link); }
+
+
 @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } section { padding: 1rem; } }

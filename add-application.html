@@ -11,8 +11,8 @@
 	<body>
 		<header>
 			<div class="header-controls">
-			<button id="theme-toggle" type="button">Dark theme</button>
-			<nav aria-label="Main navigation">
+				<button id="theme-toggle" type="button">Dark theme</button> <!-- Button that switches between light and dark themes -->
+				<nav aria-label="Main navigation"> <!-- Links to the other pages -->
 				<a href="index.html">Home</a>
 				<a href="add-application.html" aria-current="page">Add Application</a>
 				<a href="saved-applications.html">Saved Applications</a>
@@ -26,19 +26,20 @@
 				<h2 id="form-heading">Add an application</h2>
 				<p>Company and position are required. Applications are saved in this browser.</p>
 				<form id="application-form" novalidate>
-					<div class="form-grid">
+					<div class="form-grid"> <!-- Groups fields into columns using CSS -->
+						<!-- Label connects to the input with the matching ID -->
 						<div><label for="company">Company </label><input id="company" name="company" required aria-describedby="company-error"><p id="company-error" class="error"></p></div>
 						<div><label for="position">Position </label><input id="position" name="position" required aria-describedby="position-error"><p id="position-error" class="error"></p></div>
 						<div><label for="link">Application link (optional)</label><input id="link" name="link" type="url" aria-describedby="link-hint link-error"><p id="link-hint" class="hint">Use a full https:// or http:// address.</p><p id="link-error" class="error"></p></div>
 						<div><label for="application-date">Application Due Date </label><input id="application-date" name="applicationDate" type="date" aria-describedby="application-date-error"><p id="application-date-error" class="error"></p></div>
-						<div><label for="status">Status</label><select id="status" name="status"> <option>Work in Progress</option><option>Applied</option><option>Interviewing</option><option>Offer</option><option>Rejected</option><option>Withdrawn</option></select></div>
+						<div><label for="status">Status</label><select id="status" name="status"> <option>Work In Progress</option><option>Applied</option><option>Interviewing</option><option>Offer</option><option>Rejected</option><option>Withdrawn</option></select></div>
 						<div><label for="contact">Contact (optional)</label><input id="contact" name="contact"></div>
 						<div><label for="follow-up-date">Follow-up date (optional)</label><input id="follow-up-date" name="followUpDate" type="date" aria-describedby="follow-up-date-error"><p id="follow-up-date-error" class="error"></p></div>
 						<div class="full-width"><label for="notes">Notes (optional)</label><textarea id="notes" name="notes" rows="4"></textarea></div>
 					</div>
 					<button type="submit">Save application</button>
-					<button id="cancel-edit" type="button" hidden>Cancel edit</button>
-					<p id="form-message" role="status" aria-live="polite"></p>
+					<button id="cancel-edit" type="button" hidden>Cancel edit</button> <!-- Hidden until an application is being edited -->
+					<p id="form-message" role="status" aria-live="polite"></p> <!-- Displays save confirmation or error messages -->
 				</form>
 			</section>
 		</main>

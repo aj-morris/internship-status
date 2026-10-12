@@ -11,8 +11,8 @@
 	<body>
 		<header>
 			<div class="header-controls">
-			<button id="theme-toggle" type="button">Dark theme</button>
-			<nav aria-label="Main navigation">
+			<button id="theme-toggle" type="button">Dark theme</button> <!-- Button that switches between light and dark themes -->
+			<nav aria-label="Main navigation"> <!-- Links to the other pages -->
 				<a href="index.html">Home</a>
 				<a href="add-application.html">Add Application</a>
 				<a href="saved-applications.html" aria-current="page">Saved Applications</a>
@@ -29,11 +29,11 @@
 				<p id="list-message" role="status" aria-live="polite"></p>
 				<p id="storage-message" role="status"></p>
 				<p id="empty-message">No applications saved yet. Use Add Application to save your first application.</p>
-				<ul id="application-list" class="application-list"></ul>
+				<ul id="application-list" class="application-list"></ul> <!-- JavaScript adds saved applications to this list -->
 			</section>
 			<section aria-labelledby="search-heading">
 				<h2 id="search-heading">Search applications</h2>
-				<form id="search-form">
+				<form id="search-form"> <!-- Search by company or position -->
 					<div class="form-grid">
 						<div><label for="search-query">Search text</label><input id="search-query" name="query" type="search" aria-describedby="search-hint"></div>
 						<div><label for="search-field">Search by</label><select id="search-field" name="field"><option value="company">Company</option><option value="position">Position</option></select></div>
