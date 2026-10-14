@@ -48,7 +48,8 @@ nav a:hover { border-color: var(--link); text-decoration: underline; }
 /* Highlights the link for the current page */
 nav a[aria-current="page"] { font-weight: 700; border-color: var(--link); }
 
-/* Larger cards below the introduction on the Home page. */
+/* Introduction card with navigation links on the Home page. */
+.home-intro h2 { margin-top: 0; }
 .home-nav { justify-content: flex-start; gap: 1rem; margin: 1.5rem 0 0; }
 .home-nav a { flex: 1 1 220px; width: auto; padding: 2rem 1.5rem; font-size: 1.1rem; }
 h1, h2, h3 { line-height: 1.2; }
