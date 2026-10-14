@@ -27,6 +27,20 @@ document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 // Run application code only on pages with a form or saved list.
 if (document.querySelector("#application-form, #application-list")) initializeApplications(); 
 
+// Compare calendar dates in the browser's timezone, including across daylight saving changes.
+function applicationReminders(application, now = new Date()) {
+  const localDate = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  const today = localDate(now);
+  const nextWeek = new Date(now);
+  nextWeek.setDate(nextWeek.getDate() + 7);
+  const reminders = [];
+  if (application.applicationDate >= today && application.applicationDate <= localDate(nextWeek)) {
+    reminders.push('Due soon');
+  }
+  if (application.followUpDate === today) reminders.push('Follow-up today');
+  return reminders;
+}
+
 function initializeApplications() { // Set up saving, searching, editing, and deleting
   const STORAGE_KEY = 'zed.applications.v1';// Storage name for the saved applications
   const form = document.querySelector('#application-form');
@@ -164,6 +178,7 @@ function initializeApplications() { // Set up saving, searching, editing, and de
     document.querySelector('#empty-message').hidden = applications.length > 0 || !storageReadable;
     document.querySelector('#saved-hint').hidden = applications.length === 0;
     let matchCount = 0;
+    const now = new Date();
     // Loop through each application and its original index
     for (const [index, application] of applications.entries()) {
     // Skip applications that do not match the search
@@ -173,6 +188,12 @@ function initializeApplications() { // Set up saving, searching, editing, and de
       const heading = document.createElement('h3');
       // Display entered content as text, not HTML
       heading.textContent = `${application.position} at ${application.company}`;
+      for (const reminder of applicationReminders(application, now)) {
+        const badge = document.createElement('span');
+        badge.className = 'application-reminder';
+        badge.textContent = reminder;
+        heading.append(badge);
+      }
       const details = document.createElement('dl');
       for (const [field, label] of [['status', 'Status'], ['link', 'Application link'], ['applicationDate', 'Application deadline'], ['contact', 'Contact'], ['notes', 'Notes'], ['followUpDate', 'Follow-up date']]) {
         const term = document.createElement('dt');

@@ -98,6 +98,7 @@ button:hover { background: #4c6382; }
 /* Keeps long links from overflowing */
 .application-list { list-style: none; padding: 0; }
 .application-list > li { padding: 1rem 0; border-top: 1px solid var(--border); overflow-wrap: anywhere; }
+.application-reminder { display: inline-block; margin: .35rem 0 .35rem .75rem; padding: .2rem .6rem; border: 1px solid var(--border); border-radius: 999px; background: var(--page); color: var(--text); font-size: .85rem; font-weight: 600; vertical-align: middle; }
 
 
 dl { display: grid; grid-template-columns: minmax(100px, 150px) 1fr; gap: .5rem 1rem; }
