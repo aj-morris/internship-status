@@ -174,7 +174,7 @@ function initializeApplications() { // Set up saving, searching, editing, and de
       // Display entered content as text, not HTML
       heading.textContent = `${application.position} at ${application.company}`;
       const details = document.createElement('dl');
-      for (const [field, label] of [['status', 'Status'], ['link', 'Application link'], ['applicationDate', 'Application date'], ['contact', 'Contact'], ['notes', 'Notes'], ['followUpDate', 'Follow-up date']]) {
+      for (const [field, label] of [['status', 'Status'], ['link', 'Application link'], ['applicationDate', 'Application deadline'], ['contact', 'Contact'], ['notes', 'Notes'], ['followUpDate', 'Follow-up date']]) {
         const term = document.createElement('dt');
         term.textContent = label;
         const value = document.createElement('dd');
