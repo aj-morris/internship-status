@@ -70,15 +70,28 @@ function initializeApplications() { // Set up saving, searching, editing, and de
   const searchMessage = document.querySelector('#search-message');
   let searchQuery = ''; // Store the current search text and selected field
   let searchField = 'company';
+  let searchStatus = '';
 
 
-  // Search when the search form is submitted
-  if (searchForm) searchForm.addEventListener('submit', event => {
-    event.preventDefault(); // Stop the form from reloading the page
-    searchQuery = searchForm.elements.query.value.trim().toLowerCase(); // Remove outer spaces and ignore capitalization
-    searchField = searchForm.elements.field.value;
-    renderApplications();
-  });
+  if (searchForm) {
+    for (const status of statuses) {
+      const option = document.createElement('option');
+      option.value = status;
+      option.textContent = status;
+      searchForm.elements.status.append(option);
+    }
+    function applySearch() {
+      searchQuery = searchForm.elements.query.value.trim().toLowerCase();
+      searchField = searchForm.elements.field.value;
+      searchStatus = searchForm.elements.status.value;
+      renderApplications();
+    }
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault();
+      applySearch();
+    });
+    searchForm.elements.status.addEventListener('change', applySearch);
+  }
 // Remove old error messages and invalid-field markers
   function clearErrors() {
     form.querySelectorAll('.error').forEach(error => { error.textContent = ''; });
@@ -183,6 +196,7 @@ function initializeApplications() { // Set up saving, searching, editing, and de
     for (const [index, application] of applications.entries()) {
     // Skip applications that do not match the search
     if (!application[searchField].toLowerCase().includes(searchQuery)) continue;
+    if (searchStatus && application.status !== searchStatus) continue;
       matchCount += 1;
       const item = document.createElement('li');
       const heading = document.createElement('h3');
@@ -217,6 +231,8 @@ function initializeApplications() { // Set up saving, searching, editing, and de
             const updated = applications.map((record, recordIndex) =>
               recordIndex === index ? { ...record, status: select.value } : record);
             if (saveApplications(updated, listMessage)) {
+              renderApplications();
+              (document.getElementById(select.id) || searchForm.elements.status).focus();
               listMessage.textContent = `Status saved for ${application.position} at ${application.company}.`;
             } else {
               select.value = applications[index].status; // Restore the old dropdown value if saving fails
@@ -249,7 +265,7 @@ function initializeApplications() { // Set up saving, searching, editing, and de
       list.append(item);
     }
     if (searchMessage) {
-      searchMessage.textContent = !storageReadable ? '' : searchQuery
+      searchMessage.textContent = !storageReadable ? '' : (searchQuery || searchStatus)
         ? (matchCount ? `${matchCount} matching application${matchCount === 1 ? '' : 's'}.` : 'No applications match your search.')
         : '';
     }
