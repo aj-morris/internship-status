@@ -124,6 +124,20 @@ function initializeApplications() { // Set up saving, searching, editing, and de
       validLink(record.link) && validDate(record.applicationDate) && validDate(record.followUpDate);
   }
 
+  // Load saved records before adding, editing, or displaying applications.
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    const records = stored === null ? [] : JSON.parse(stored);
+    if (!Array.isArray(records) || !records.every(validRecord)) {
+      throw new Error('Invalid saved applications');
+    }
+    applications = records;
+  } catch {
+    storageReadable = false;
+    storageMessage.textContent = 'Saved applications could not be loaded. Existing data has been kept. Try again with browser storage available.';
+    if (saveButton) saveButton.disabled = true;
+  }
+
   // Confirm deletion, then remove and save one application
   function deleteApplication(index) {
     const application = applications[index];
@@ -249,15 +263,7 @@ function initializeApplications() { // Set up saving, searching, editing, and de
       ? applications.map((record, index) => index === editingIndex ? application : record)
       : [...applications, application];
     if (!saveApplications(updated, message)) return;
-    renderApplications();
-    resetForm();
-    if (listMessage) listMessage.textContent = '';
-    if (isEditing) {
-      window.location.href = 'saved-applications.html';
-      return;
-    }
-    message.textContent = 'Application saved in this browser.';
-    form.elements.company.focus();
+    window.location.href = 'saved-applications.html';
   });
 
   const editParameter = new URLSearchParams(window.location.search).get('edit');
