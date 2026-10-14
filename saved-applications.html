@@ -23,15 +23,6 @@
 		</header>
 
 		<main id="main-content">
-			
-			<section aria-labelledby="saved-heading">
-				<h2 id="saved-heading">Saved applications</h2>
-				<p id="saved-hint" class="hint" hidden>Changing a status saves it immediately. Use Edit to update other details.</p>
-				<p id="list-message" role="status" aria-live="polite"></p>
-				<p id="storage-message" role="status"></p>
-				<p id="empty-message">No applications saved yet. Use Add Application to save your first application.</p>
-				<ul id="application-list" class="application-list"></ul> <!-- JavaScript adds saved applications to this list -->
-			</section>
 			<section aria-labelledby="search-heading">
 				<h2 id="search-heading">Search applications</h2>
 				<form id="search-form"> <!-- Search by company or position -->
@@ -43,6 +34,14 @@
 					<button type="submit">Search</button>
 					<p id="search-message" role="status" aria-live="polite"></p>
 				</form>
+			</section>
+			<section aria-labelledby="saved-heading">
+				<h2 id="saved-heading">Saved applications</h2>
+				<p id="saved-hint" class="hint" hidden>Changing a status saves it immediately. Use Edit to update other details.</p>
+				<p id="list-message" role="status" aria-live="polite"></p>
+				<p id="storage-message" role="status"></p>
+				<p id="empty-message">No applications saved yet. Use Add Application to save your first application.</p>
+				<ul id="application-list" class="application-list"></ul> <!-- JavaScript adds saved applications to this list -->
 			</section>
 		</main>
         <script src="js/app.js" defer></script>
