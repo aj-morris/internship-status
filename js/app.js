@@ -92,23 +92,6 @@ function initializeApplications() { // Set up saving, searching, editing, and de
     });
     searchForm.elements.status.addEventListener('change', applySearch);
   }
-// Remove old error messages and invalid-field markers
-  function clearErrors() {
-    form.querySelectorAll('.error').forEach(error => { error.textContent = ''; });
-    form.querySelectorAll('[aria-invalid]').forEach(input => input.removeAttribute('aria-invalid'));
-  }
-
-  // Clear the form and return it to add mode
-  function resetForm() {
-    editingIndex = null;
-    form.reset();
-    clearErrors();
-    formHeading.textContent = 'Add an application';
-    saveButton.textContent = 'Save application';
-    cancelEdit.hidden = true;
-  }
-
-
 // Return to saved applications when editing is canceled
   if (cancelEdit) cancelEdit.addEventListener('click', () => {
     window.location.href = 'saved-applications.html';
