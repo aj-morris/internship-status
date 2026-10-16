@@ -35,7 +35,7 @@ header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 3px solid
 
 /* On Home, keep the title and toggle together and wrap on small screens. */
 .home-title { justify-content: flex-start; }
-.home-title h1 { flex: 1 1 500px; margin: 0; }
+.home-title h1 { flex: 1 1 500px; margin: 0; font-size: clamp(1.75rem, 3.6vw, 2.25rem); }
 .home-title #theme-toggle { flex-shrink: 0; }
 nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; margin-left: auto; }
 
