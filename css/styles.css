@@ -1,16 +1,16 @@
 /* Default colors used throughout the site */
 :root {
-  --text: #343b7b;
-  --page: #dadfe7;
-  --surface: #ffffff;
-  --border: #343b7b;
+  --text: #252722;
+  --page: #f5f2e9;
+  --surface: #fffdf7;
+  --border: #c8c5b9;
   --input-border: #65778a;
-  --muted: #485b6e;
-  --error: #ff9aaa;
-  --link: #174b8c;
-  --focus: #343b7b;
+  --muted: #62645c;
+  --error: #a12740;
+  --link: #244bc1;
+  --focus: #244bc1;
   color-scheme: light;
-  font-family: system-ui, sans-serif; color: var(--text); background: var(--page); line-height: 1.5;
+  font-family: "DM Sans", system-ui, sans-serif; color: var(--text); background: var(--page); line-height: 1.5;
 }
 
 /* Replaces the default colors when dark theme is selected */
@@ -28,35 +28,45 @@
 }
 
 * { box-sizing: border-box; } /* Includes padding and borders in an element's width */
-body { margin: 0 auto; max-width: 1000px; padding: 2rem 1rem; }
-header { margin-bottom: 2rem; }
+body { margin: 0 auto; max-width: 1000px; padding: 3rem 1.25rem; }
+header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 3px solid var(--text); }
 .header-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .header-controls #theme-toggle { margin-top: 0; }
 
 /* On Home, keep the title and toggle together and wrap on small screens. */
 .home-title { justify-content: flex-start; }
-.home-title h1 { margin: 0; }
+.home-title h1 { flex: 1 1 500px; margin: 0; }
 .home-title #theme-toggle { flex-shrink: 0; }
 nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; margin-left: auto; }
 
 /* Each link is a whole clickable card, using the existing theme colors. */
 /* Shared dimensions keep the toggle and navigation cards the same shape. */
-.header-controls #theme-toggle, nav a { width: 10.5rem; padding: .5rem .75rem; font-size: .9rem; line-height: 1.5; border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+.header-controls #theme-toggle, nav a { width: 10.5rem; padding: .5rem .75rem; font-size: .9rem; line-height: 1.5; border: 1px solid var(--border); border-radius: 2px; text-align: center; }
 nav a { background: var(--surface); text-decoration: none; }
 nav a:hover { border-color: var(--link); text-decoration: underline; }
 
 /* Highlights the link for the current page */
-nav a[aria-current="page"] { font-weight: 700; border-color: var(--link); }
+nav a[aria-current="page"] { font-weight: 700; border-color: var(--link); box-shadow: inset 0 -3px var(--link); }
 
 /* Introduction card with navigation links on the Home page. */
 .home-intro h2 { margin-top: 0; }
 .home-nav { justify-content: flex-start; gap: 1rem; margin: 1.5rem 0 0; }
 .home-nav a { flex: 1 1 220px; width: auto; padding: 2rem 1.5rem; font-size: 1.1rem; }
-h1, h2, h3 { line-height: 1.2; }
-header h1 { font-family: 'Bungee', system-ui, sans-serif; font-weight: 400; }
+h1, h2, h3 { line-height: 1.1; text-wrap: balance; }
+h1, h2 { font-family: "Libre Caslon Display", Georgia, serif; font-weight: 400; }
+header h1 { max-width: 850px; margin: 1.5rem 0 0; font-size: clamp(2.6rem, 6vw, 4.7rem); letter-spacing: -.035em; }
+h2 { margin: 0 0 1.5rem; font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -.02em; }
+h3 { font-size: 1.3rem; letter-spacing: -.025em; }
+p { line-height: 1.7; }
+.home-intro { padding: clamp(1.5rem, 4vw, 3rem); border-top: 3px solid var(--link); }
+.home-intro h2 { max-width: 650px; font-size: clamp(2.5rem, 5vw, 3.8rem); }
+.home-intro > p { max-width: 65ch; }
+.home-intro > p + p { color: var(--muted); font-size: .85rem; }
+.home-nav a { text-align: left; font-weight: 600; border-color: var(--link); }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: .75rem; letter-spacing: .06em; }
 
 /* Styles each content section */
-section { background: var(--surface); padding: 1.5rem; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1.5rem; }
+section { background: var(--surface); padding: 1.5rem; border: 1px solid var(--border); border-radius: 2px; margin-bottom: 1.5rem; }
 
 
 /* Arranges form fields into two equal columns */
@@ -64,7 +74,7 @@ section { background: var(--surface); padding: 1.5rem; border: 1px solid var(--b
 
 /* Makes the notes field span both columns */
 .full-width { grid-column: 1 / -1; }
-label { display: block; font-weight: 600; margin-bottom: .35rem; }
+label { display: block; font-size: .75rem; letter-spacing: .065em; text-transform: uppercase; font-weight: 700; margin-bottom: .5rem; }
 
 /* Makes form controls use the page's font */
 input, select, textarea, button { font: inherit; }
@@ -72,8 +82,8 @@ input, select, textarea { width: 100%; padding: .65rem; border: 1px solid var(--
 
 /* Lets users resize the notes field vertically */
 textarea { resize: vertical; }
-button { margin-top: 1rem; padding: .7rem 1.2rem; background: #2c588d; color: white; border: 0; border-radius: 6px; cursor: pointer; }
-button:hover { background: #4c6382; }
+button { margin-top: 1rem; padding: .7rem 1.2rem; background: #244bc1; color: white; border: 0; border-radius: 2px; cursor: pointer; }
+button:hover { background: #193891; }
 
 /* Adds space between Edit and Delete buttons */
 .application-list button + button { margin-left: .5rem; }
